@@ -144,6 +144,18 @@ impl Translator {
         Ok(Self { inner })
     }
 
+    /// Build a translator from raw table source text. Does not resolve
+    /// `include` directives.
+    #[staticmethod]
+    #[pyo3(signature = (table, direction = Direction::FORWARD))]
+    fn from_table_source(py: Python<'_>, table: &str, direction: Direction) -> PyResult<Self> {
+        let dir: louis::Direction = direction.into();
+        let inner = py
+            .detach(|| louis::Translator::from_table_source(table, dir))
+            .map_err(to_pyerr)?;
+        Ok(Self { inner })
+    }
+
     /// Translate `text` to braille.
     fn translate(&self, py: Python<'_>, text: &str) -> PyResult<String> {
         py.detach(|| self.inner.translate(text))

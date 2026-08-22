@@ -8,6 +8,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- `Translator.from_table_source(table, direction=Direction.FORWARD)`: build a
+  translator from raw table source text held in memory. Does not resolve
+  `include` directives; table text containing one raises `TableParseError`.
 - Initial release of `louis-py`, PyO3 bindings for the
   [louis-rs](https://github.com/liblouis/louis-rs) braille translator, extracted
   into its own repository.
@@ -17,6 +20,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   - Exception hierarchy: `LouisError`, `TableParseError`, `TranslationError`.
   - Type stubs (`_louis_py.pyi`) and `py.typed` marker.
   - Built with maturin, `abi3-py311` (single wheel for Python 3.11+).
+
+### Changed
+
+- Updated the louis-rs pin from `1b0c7cd7` to `8eecb61e`. No breaking API
+  changes; notable upstream changes include a Pike VM regexp
+  engine replacing the recursive backtracker, liblouis-compatible
+  prepunc/postpunc scanning, UTF-16 surrogate-pair combining in `\x` escapes,
+  the `syllable` opcode, and rejection of circular or overly deep table
+  inclusion chains.
 
 ### Notes
 

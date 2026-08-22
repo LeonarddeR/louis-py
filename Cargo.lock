@@ -346,7 +346,7 @@ dependencies = [
 [[package]]
 name = "louis-rs"
 version = "0.2.8"
-source = "git+https://github.com/liblouis/louis-rs?rev=1b0c7cd7afe363413ce65ad488f14a39f5cc5790#1b0c7cd7afe363413ce65ad488f14a39f5cc5790"
+source = "git+https://github.com/liblouis/louis-rs?rev=8eecb61eaa915d9ae112a6fc8f7ec0875eb66fad#8eecb61eaa915d9ae112a6fc8f7ec0875eb66fad"
 dependencies = [
  "clap",
  "enumset",
@@ -355,6 +355,7 @@ dependencies = [
  "log",
  "rayon",
  "search_path",
+ "smallvec",
  "tabled",
  "thiserror",
 ]
@@ -574,6 +575,12 @@ dependencies = [
  "quote",
  "syn 2.0.118",
 ]
+
+[[package]]
+name = "smallvec"
+version = "1.15.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8ed6a63f02c8539c91a8685a86f4099661ba3da017932f6ebbea6de3f0fa7c90"
 
 [[package]]
 name = "strsim"

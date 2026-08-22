@@ -19,6 +19,11 @@ class Translator:
         tables: list[str | os.PathLike],
         direction: Direction = ...,
     ) -> None: ...
+    @staticmethod
+    def from_table_source(
+        table: str,
+        direction: Direction = ...,
+    ) -> "Translator": ...
     def translate(self, text: str) -> str: ...
     def translate_with_options(
         self,
