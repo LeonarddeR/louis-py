@@ -9,8 +9,15 @@ class Direction:
 class TranslationResult:
     output: str
     emphasis: Optional[list[tuple[str, int, int]]]
+    # output_positions[i] is the index in `output` of the cell that the input
+    # character at index i translated to. One entry per input character.
     output_positions: Optional[list[int]]
+    # input_positions[j] is the index in the input text of the character that
+    # `output[j]` came from. One entry per output cell.
     input_positions: Optional[list[int]]
+    # The position of the `cursor_pos=` argument translated into `output`, or
+    # None when no cursor was passed. Equals len(output) for a cursor past the
+    # end of the input.
     cursor_pos: Optional[int]
 
 class Translator:

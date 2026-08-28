@@ -8,6 +8,16 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Position mapping on `TranslationResult`. The `output_positions`,
+  `input_positions` and `cursor_pos` fields used to always be `None`;
+  `Translator.translate_with_options` now fills them in.
+  `output_positions[i]` is the index of the braille cell that the input
+  character at index `i` translated to, and `input_positions[j]` is the
+  index of the input character that the braille cell at index `j` came
+  from. Both count characters, so they index the input and output strings
+  directly. `cursor_pos` holds the translated position of the cursor
+  passed as `cursor_pos=`, and stays `None` when none is passed; a cursor
+  past the end of the input maps past the end of the output.
 - `Translator.from_table_source(table, direction=Direction.FORWARD)`: build a
   translator from raw table source text held in memory. Does not resolve
   `include` directives; table text containing one raises `TableParseError`.
@@ -23,12 +33,13 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
-- Updated the louis-rs pin from `1b0c7cd7` to `8eecb61e`. No breaking API
-  changes; notable upstream changes include a Pike VM regexp
-  engine replacing the recursive backtracker, liblouis-compatible
-  prepunc/postpunc scanning, UTF-16 surrogate-pair combining in `\x` escapes,
-  the `syllable` opcode, and rejection of circular or overly deep table
-  inclusion chains.
+- Updated the louis-rs pin from `1b0c7cd7` to `048deaba`. No breaking API
+  changes; notable upstream changes include position and cursor mapping over
+  the whole translation pipeline, a Pike VM regexp engine replacing the
+  recursive backtracker, liblouis-compatible prepunc/postpunc scanning,
+  UTF-16 surrogate-pair combining in `\x` escapes, the `syllable` opcode,
+  caps-passage (`begcaps`/`begcapsphrase`) indication, and rejection of
+  circular or overly deep table inclusion chains.
 
 ### Notes
 
