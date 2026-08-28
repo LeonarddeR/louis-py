@@ -25,8 +25,7 @@ jobs:
       - uses: astral-sh/setup-uv@v8.3.2
       - name: Test
         run: uv run pytest tests -v
-      - name: Type check (non-blocking)
-        continue-on-error: true
+      - name: Type check
         run: uv run ty check python
 
   wheels:

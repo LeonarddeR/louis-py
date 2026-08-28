@@ -104,7 +104,11 @@ impl TranslationResult {
     fn __repr__(&self) -> String {
         format!(
             "TranslationResult(output={:?}, emphasis={:?}, output_positions={:?}, input_positions={:?}, cursor_pos={:?})",
-            self.output, self.emphasis, self.output_positions, self.input_positions, self.cursor_pos
+            self.output,
+            self.emphasis,
+            self.output_positions,
+            self.input_positions,
+            self.cursor_pos
         )
     }
 }
@@ -158,8 +162,7 @@ impl Translator {
 
     /// Translate `text` to braille.
     fn translate(&self, py: Python<'_>, text: &str) -> PyResult<String> {
-        py.detach(|| self.inner.translate(text))
-            .map_err(to_pyerr)
+        py.detach(|| self.inner.translate(text)).map_err(to_pyerr)
     }
 
     /// Translate `text` to braille with full options.

@@ -1,0 +1,109 @@
+# Configuration file for `prek`, a git hook framework written in Rust.
+# See https://prek.j178.dev for more information.
+#:schema https://www.schemastore.org/prek.json
+
+[[repos]]
+repo = "meta"
+hooks = [
+  { id = "check-useless-excludes" },
+  { id = "check-hooks-apply" }
+]
+
+[[repos]]
+repo = "builtin"
+hooks = [
+  { id = "check-added-large-files" },
+  { id = "check-case-conflict" },
+  { id = "check-merge-conflict" },
+  { id = "check-toml" },
+  { id = "check-vcs-permalinks" },
+  { id = "check-yaml" },
+  {
+    id = "trailing-whitespace",
+    types_or = [
+      "python",
+      "rust",
+      "toml",
+      "yaml",
+      "markdown"
+    ]
+  },
+  {
+    id = "end-of-file-fixer",
+    types_or = [
+      "python",
+      "rust",
+      "toml",
+      "yaml",
+      "markdown"
+    ]
+  },
+  {
+    id = "fix-byte-order-marker",
+    types_or = [
+      "python",
+      "rust",
+      "toml",
+      "yaml",
+      "markdown"
+    ]
+  }
+]
+
+[[repos]]
+repo = "https://github.com/asottile/add-trailing-comma"
+rev = "v4.0.0"
+hooks = [
+  { id = "add-trailing-comma" }
+]
+
+[[repos]]
+repo = "https://github.com/astral-sh/ruff-pre-commit"
+rev = "v0.15.20"
+hooks = [
+  {
+    id = "ruff",
+    name = "lint with ruff",
+    args = ["--fix"]
+  },
+  {
+    id = "ruff-format",
+    name = "format with ruff"
+  }
+]
+
+[[repos]]
+repo = "https://github.com/rhysd/actionlint"
+rev = "v1.7.12"
+hooks = [
+  { id = "actionlint" }
+]
+
+[[repos]]
+repo = "local"
+hooks = [
+  {
+    id = "cargo-fmt",
+    name = "format with cargo fmt",
+    entry = "cargo fmt --",
+    language = "system",
+    types = ["rust"],
+    pass_filenames = false
+  },
+  {
+    id = "ty",
+    name = "type check with ty",
+    entry = "uv run ty check python",
+    language = "system",
+    types = ["python"],
+    pass_filenames = false
+  },
+  {
+    id = "pytest",
+    name = "run tests with pytest",
+    entry = "uv run pytest tests",
+    language = "system",
+    types = ["python"],
+    pass_filenames = false
+  }
+]
