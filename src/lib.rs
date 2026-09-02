@@ -138,12 +138,26 @@ pub struct Translator {
 
 #[pymethods]
 impl Translator {
+    /// Compile `tables`, looking each name and every `include` up in
+    /// `search_path` when given, otherwise in `LOUIS_TABLE_PATH` (split on the
+    /// platform separator, `.` when unset). Names are joined onto each entry in
+    /// order and the first existing file wins; nothing is added to the list, so
+    /// a table's own directory is searched only when listed and an absolute
+    /// table name resolves against any non-empty search path.
     #[new]
-    #[pyo3(signature = (tables, direction = Direction::FORWARD))]
-    fn new(py: Python<'_>, tables: Vec<PathBuf>, direction: Direction) -> PyResult<Self> {
+    #[pyo3(signature = (tables, direction = Direction::FORWARD, *, search_path = None))]
+    fn new(
+        py: Python<'_>,
+        tables: Vec<PathBuf>,
+        direction: Direction,
+        search_path: Option<Vec<PathBuf>>,
+    ) -> PyResult<Self> {
         let dir: louis::Direction = direction.into();
         let inner = py
-            .detach(|| louis::Translator::new(&tables, dir))
+            .detach(|| match search_path {
+                Some(dirs) => louis::Translator::with_search_path(&tables, dir, dirs),
+                None => louis::Translator::new(&tables, dir),
+            })
             .map_err(to_pyerr)?;
         Ok(Self { inner })
     }

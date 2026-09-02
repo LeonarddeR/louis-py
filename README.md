@@ -14,11 +14,19 @@ print(t.translate("hello world"))  # ⠓⠑⠇⠇⠕⠀⠺⠕⠗⠇⠙
 
 ```python
 r = t.translate_with_options("Hello", cursor_pos=1)
-r.output            # the braille text
+r.output  # the braille text
 r.output_positions  # for each input character, the index of its braille cell
-r.input_positions   # for each braille cell, the index of its input character
-r.cursor_pos        # index in r.output of the cursor passed in
+r.input_positions  # for each braille cell, the index of its input character
+r.cursor_pos  # index in r.output of the cursor passed in
 ```
 
-Tables are resolved via `LOUIS_TABLE_PATH`. See `python/louis_py/_louis_py.pyi`
-for the full API.
+Table names and their `include` lines are looked up in the directories given as
+`search_path=`, in order, or in `LOUIS_TABLE_PATH` when it is omitted. Nothing
+else is searched, so a host that manages its own table directories lists them
+all:
+
+```python
+t = Translator(["en-ueb-g2.ctb"], search_path=[nvda_tables, addon_tables])
+```
+
+See `python/louis_py/_louis_py.pyi` for the full API.

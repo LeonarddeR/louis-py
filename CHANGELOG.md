@@ -8,6 +8,13 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- `search_path=` keyword on `Translator`: the directories, in order, in which
+  table names and their `include` lines are looked up. `None` (the default)
+  keeps reading `LOUIS_TABLE_PATH`. A host that manages its own table
+  directories passes them here instead of mutating the environment variable
+  around every constructor call. Nothing beyond the given list is searched: a
+  table's own directory only when listed, and an absolute table name resolves
+  against any non-empty search path.
 - Position mapping on `TranslationResult`. The `output_positions`,
   `input_positions` and `cursor_pos` fields used to always be `None`;
   `Translator.translate_with_options` now fills them in.
@@ -40,6 +47,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   UTF-16 surrogate-pair combining in `\x` escapes, the `syllable` opcode,
   caps-passage (`begcaps`/`begcapsphrase`) indication, and rejection of
   circular or overly deep table inclusion chains.
+- Updated the louis-rs pin from `048deaba` to `98208e28`. Notable upstream
+  changes: a caller-supplied table search path (`Translator::with_search_path`,
+  exposed here as `search_path=`); competing translation rules ranked by the
+  number of characters they consume before their `before`/`after` conditions;
+  case-sensitive `comp6` lookup; an `include`d `.dic` hyphenation dictionary
+  embedded while includes are expanded, with bad dictionaries reported as table
+  errors naming the file; table read errors naming the file and the I/O error.
+  The never-populated `TranslationResult::spacing` was removed upstream;
+  louis-py never exposed it.
 
 ### Notes
 
